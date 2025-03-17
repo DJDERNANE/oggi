@@ -44,18 +44,21 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
+main{
+  width: 90%;
+  height: 80vh;
+  overflow: scroll;
 
-main{ 
+}
+.main-content{ 
   display: flex;
-width: 90%;
-height: 80vh;
-padding: 40px;
-flex-direction: column;
-align-items: flex-start;
-
-
-border-radius: 16px;
-background: #FFF;
+  width: 100%;
+  padding: 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 16px;  
+  background: #FFF;
+  margin-bottom: 20px;
 }
 .container {
   width: 90%;
@@ -209,8 +212,8 @@ gap: 30px;
   padding: 20px 2px;
   font-size: 16px;
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 30px;
+  right: 20px;
 }
 .footer-container{
   background-color: var(--primary-color);
@@ -290,4 +293,158 @@ letter-spacing: -0.5px;
   background-repeat: no-repeat;
   background-position: 10px center;
   padding-left: 70px;
+}
+
+
+
+
+
+.modalOuter {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modalBox {
+  width: 30%;
+  margin: 0 auto;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+}
+
+.heading,
+.drag {
+  font-weight: 600;
+  color: #191442;
+}
+
+.drag {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  cursor: pointer;
+}
+
+.drag .browse {
+  display: inline-block;
+  color: #fe8d57;
+}
+
+.file-label {
+  cursor: pointer;
+}
+
+.instruction,
+.info {
+  color: #6f6c78;
+}
+
+.heading {
+  font-size: 25px;
+}
+
+.instruction {
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  font-size: 14px;
+}
+
+.drag {
+  font-size: 18px;
+}
+
+.info {
+  font-size: 12px;
+}
+
+.btn-container {
+  display: flex;
+  border: solid 0.1px;
+  border-radius: 5px;
+}
+
+.uploadBox,
+.signBox {
+  padding: 2em;
+  border: 2px dashed #7866e3;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Tab Container */
+
+.Tabs {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  border-radius: 2rem;
+}
+
+/* Tab Navigation */
+
+ul.nav {
+  width: 80%;
+  margin: 0 auto 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #d9d4f3;
+  border-radius: 0.5rem;
+}
+
+ul.nav li {
+  width: 50%;
+  padding: 0.5rem 2em;
+  list-style: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 0.5em;
+  color: #191442;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+ul.nav li.active {
+  background: #191442;
+  color: #fff;
+}
+.demande-visa-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  border-radius: 100px;
+  background: #3981F7;
+  color: #FFF;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 19.6px */
+  letter-spacing: -0.14px;
+  height: 40px;;
+}
+.allvisas_container{
+  border-radius: 16px;
+border: 1px solid  #E4E4E7;
+background:  #FFF;
+}
+.visas-ready-stats{
+  border-radius: 100px;
+  background:  #CEEFDF;
+  color: #0AAF60;
+  font-size: 12px;
 }

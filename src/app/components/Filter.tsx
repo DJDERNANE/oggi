@@ -48,10 +48,10 @@ export default function Filter() {
     }
 
     return (
-        <div className="p-4 relative w-full">
+        <div className="p-4 relative w-full main-content">
             <h1 className="text-lg font-bold mb-4">Nouvelle demande de visa</h1>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 h-[300px]">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 h-[300px] w-full  ">
                     {/* Responsive Grid for Select Fields */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 form-container justify-between items-start">
                         <FormField
