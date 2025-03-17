@@ -1,4 +1,4 @@
-import AllVisas from "../components/AllVisas";
+import AllMyVisas from "../components/AllMyVisas";
 import MyVisasDetails from "../components/MyVisasDetails";
 import DashboardLayout from "../dashboard/DashboardLayout";
 
@@ -18,7 +18,7 @@ export default function MyVisas() {
                             <MyVisasDetails />
                         </div>
                         <div>
-                            <AllVisas />
+                            <AllMyVisas />
                         </div>
                     </div>
                 </div>

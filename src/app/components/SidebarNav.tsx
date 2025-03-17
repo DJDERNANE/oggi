@@ -4,19 +4,19 @@ export default function SidebarNav() {
         {
             id: 1,
             name: 'Accueil',
-            link: '/',
+            link: '/dashboard',
             icon: '/home.svg'
         },
         {
             id: 2,
-            name: 'Réservations',
-            link: '/',
+            name: 'Mes Visas',
+            link: '/my-visas',
             icon: '/calendar.svg'
         },
         {
             id: 3,
             name: 'Documents',
-            link: '/',
+            link: '/my-docs',
             icon: '/folder.svg'
         },
     ]

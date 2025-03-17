@@ -1,6 +1,6 @@
 import VisasStatus from "./VisasStatus";
 
-export default function AllVisas() {
+export default function AllMyVisas() {
     return (
         <div className="allvisas_container flex flex-col w-full p-4">
                 <div className="mb-4">
