@@ -16,8 +16,9 @@ import { Input } from "@/components/ui/input"
 import AuthLayout from "../authLayout"
 import { PasswordField } from "@/app/components/PasswordField"
 import { useState } from "react"
-import { fetchData } from "@/utils/fetchData"
 import { Loader } from "lucide-react"
+import { PostRequest } from "@/utils/PostRequest"
+import { saveToken } from "@/utils/SaveToken"
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -38,14 +39,9 @@ export default function Login() {
         setLoading(true);
         console.log("Submitting data:", data);
         try {
-            const response = await fetchData({
-                endpoint: "login",
-                method: "POST",
-                body: data, // Use step parameter dynamically
-            });
+            const response = await PostRequest("/login", false, data);
             console.log("Response :", response);
-            localStorage.setItem("user", response.user);
-            localStorage.setItem("token", response.token);
+            saveToken(response.token);
             window.location.href = "/dashboard"
         } catch (error) {
             console.error("Error submitting form:", error);

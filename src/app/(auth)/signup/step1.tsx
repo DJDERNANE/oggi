@@ -16,7 +16,8 @@ import { Input } from "@/components/ui/input"
 import Loading from "@/utils/loading"
 import { Loader } from 'lucide-react';
 import React, { useState } from "react"
-import { fetchData } from "@/utils/fetchData"
+import { GetRequest } from "@/utils/GetRequest"
+import { PostRequest } from "@/utils/PostRequest"
 
 
 const FormSchema = z.object({
@@ -49,11 +50,7 @@ export default  function Step1({ onNext }: { onNext: any }) {
 
         console.log("Submitting data:", requestBody);
         try {
-            const response = await fetchData({
-                endpoint: "register",
-                method: "POST",
-                body: requestBody, // Use step parameter dynamically
-            });
+            const response = await PostRequest('/register', false, requestBody);
 
             localStorage.setItem("email", response.user.email);
             console.log("Response:", response);

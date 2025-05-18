@@ -1,6 +1,6 @@
-import Footer from "../components/Footer"
-import Navbar from "../components/Navbar"
-import SidebarNav from "../components/SidebarNav"
+import Footer from "./components/Footer"
+import Navbar from "./components/Navbar"
+import SidebarNav from "./components/SidebarNav"
 
 export default function DashboardLayout({
     children,
@@ -17,7 +17,7 @@ export default function DashboardLayout({
             <>
               <SidebarNav />
             </>
-            <main>{children}</main>
+            <main className="hi">{children}</main>
           </div>
           <Footer />
         </body>

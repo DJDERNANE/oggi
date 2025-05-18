@@ -18,7 +18,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { fetchData } from "@/utils/fetchData"
+import { PostRequest } from "@/utils/PostRequest"
 import { useState } from "react"
 import { Loader } from "lucide-react"
 
@@ -44,11 +44,11 @@ export default function Step4({ onNext }: { onNext: any }) {
         const requestBody = { ...data, email, phone, step };
         console.log("Submitting data:", requestBody);
         try {
-            const response = await fetchData({
-                endpoint: "register",
-                method: "POST",
-                body: requestBody, // Use step parameter dynamically
-            });
+            const response = await PostRequest(
+                "/register",
+                false,
+                requestBody, // Use step parameter dynamically
+            );
 
             console.log("Next Step :", response.next_step);
             onNext(response.next_step); // Move to next step only if successful

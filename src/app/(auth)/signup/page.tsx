@@ -13,7 +13,7 @@ import Step6 from "./step6";
 export default function Signup() {
     const [step, setStep] = useState(1);
     return (
-        <AuthLayout type="signup">
+        <AuthLayout type="signup" currentStep={step}>
             <div>
                 {(() => {
                     switch (step) {

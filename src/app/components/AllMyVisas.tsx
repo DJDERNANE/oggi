@@ -1,6 +1,7 @@
 import VisasStatus from "./VisasStatus";
 
-export default function AllMyVisas() {
+export default function AllMyVisas({visas} : {visas: Array<any>}) {
+    console.log("visas :: ", visas);
     return (
         <div className="allvisas_container flex flex-col w-full p-4">
                 <div className="mb-4">
@@ -9,8 +10,7 @@ export default function AllMyVisas() {
                     </p>
                 </div>
                 <div className="flex flex-col gap-3">
-                    <VisasStatus />
-                    <VisasStatus />
+                    {visas?.map((visa: any, index: number) => (<VisasStatus key={index} visa={visa} />))}
                 </div>
 
         </div>

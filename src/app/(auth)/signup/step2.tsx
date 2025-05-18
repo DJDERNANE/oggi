@@ -19,7 +19,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { fetchData } from "@/utils/fetchData"
+import { PostRequest } from "@/utils/PostRequest"
 import { Loader } from "lucide-react"
 
 const FormSchema = z.object({
@@ -44,11 +44,11 @@ export default  function Step2({ onNext }: { onNext: any }) {
             const requestBody = { ...data, email, step };
             console.log("Submitting data:", requestBody);
             try {
-                const response = await fetchData({
-                    endpoint: "register",
-                    method: "POST",
-                    body: requestBody, // Use step parameter dynamically
-                });
+                const response = await PostRequest(
+                   "/register",
+                    false,
+                    requestBody, // Use step parameter dynamically
+                );
     
                 localStorage.setItem("email", response.user.email);
                 console.log("Next Step :", response.next_step);

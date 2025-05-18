@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Eye, EyeOff, Loader } from "lucide-react";
 import { useState } from "react"
-import { fetchData } from "@/utils/fetchData"
+import { PostRequest } from "@/utils/PostRequest"
 import { PasswordField } from "@/app/components/PasswordField"
 
 const FormSchema = z.object({
@@ -45,11 +45,11 @@ export default function Step5({ onNext }: { onNext: any }) {
             const requestBody = { ...filteredData, email, phone, step };
             console.log("Submitting data:", requestBody);
             try {
-                const response = await fetchData({
-                    endpoint: "register",
-                    method: "POST",
-                    body: requestBody, // Use step parameter dynamically
-                });
+                const response = await PostRequest(
+                    "/register",
+                    false,
+                    requestBody, // Use step parameter dynamically
+                );
     
                 console.log("Next Step :", response);
                 localStorage.setItem("user", response.user);
