@@ -116,7 +116,7 @@ export default function AuthLayout({
     <html lang="en">
       <body>
         <div className='flex h-[100vh] overflow-hidden w-full'>
-          <div className="process-side h-[100vh] w-1/3">
+          <div className={`process-side h-[100vh]  ${currentStep === 6 ? 'w-0' : 'w-1/3'}`}>
             <div className='container'>
               <div className='logo py-4'>
                 <img src="/logo.svg" alt="Logo" />
