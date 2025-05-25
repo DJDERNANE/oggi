@@ -120,11 +120,12 @@ export default function Dashboard() {
             formData.append(`applications[${index}][name]`, passenger.name);
             formData.append(`applications[${index}][fammily_name]`, passenger.family_name);
             formData.append(`applications[${index}][passport_number]`, passenger.passport_number);
-            formData.append(`applications[${index}][departure_date]`, passenger.departure_date.toISOString().split("T")[0]);
+            // Format date as YYYY-MM-DD
+            const date = new Date(passenger.departure_date);
+            formData.append(`applications[${index}][departure_date]`, date.toISOString().split('T')[0]);
             formData.append(`applications[${index}][visa_type_id]`, passenger.visa_type_id);
             formData.append(`applications[${index}][price]`, index < adultsCount ? adultPrice.toString() : childrenPrice.toString());
 
-            // Handle files as a simple array
             if (passenger.files && passenger.files.length > 0) {
                 passenger.files.forEach((file: File) => {
                     formData.append(`applications[${index}][files][]`, file);
@@ -173,6 +174,9 @@ export default function Dashboard() {
                                 number={index}
                                 formData={passengerForms[index]}
                                 onChange={(data) => updatePassengerForm(index, data)}
+                                isLastPassenger={index === adultsCount - 1 && childrenCount === 0}
+                                onSubmit={handleSubmitAll}
+                                submitting={submitting}
                             />
                         ))
                         : <AllVisas
@@ -194,29 +198,12 @@ export default function Dashboard() {
                                 number={adultsCount + index}
                                 formData={passengerForms[adultsCount + index]}
                                 onChange={(data) => updatePassengerForm(adultsCount + index, data)}
+                                isLastPassenger={index === childrenCount - 1}
+                                onSubmit={handleSubmitAll}
+                                submitting={submitting}
                             />
                         ))
                     }
-
-                    {/* Submit All Button */}
-                    {(adultsCount > 0 || childrenCount > 0) && (
-                        <div className="flex justify-end mt-6">
-                            <Button
-                                onClick={handleSubmitAll}
-                                disabled={submitting}
-                                className="w-full md:w-auto bg-[#DF2C2C] hover:bg-[#DF2C2C] cursor-pointer"
-                            >
-                                {submitting ? (
-                                    <>
-                                        <Loader className="animate-spin mr-2" />
-                                        Soumission en cours...
-                                    </>
-                                ) : (
-                                    "Soumettre"
-                                )}
-                            </Button>
-                        </div>
-                    )}
                 </div>
             )}
         </DashboardLayout>

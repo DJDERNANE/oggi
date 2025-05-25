@@ -22,7 +22,10 @@ import { format } from "date-fns"
 import FileUploader from "./Dropzone.js"
 import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
-
+import { Loader } from 'lucide-react'
+import { Separator } from "@/components/ui/separator"
+import { useState, useEffect } from "react"
+import { Checkbox } from "@/components/ui/checkbox"
 const FormSchema = z.object({
     name: z.string().min(1, "Required"),
     family_name: z.string().min(1, "Required"),
@@ -37,6 +40,7 @@ interface PassengerProps {
     price: number;
     docs: Array<any>;
     number: number;
+    isLastPassenger: boolean;
     formData: {
         name: string;
         family_name: string;
@@ -45,23 +49,45 @@ interface PassengerProps {
         files: File[];
     };
     onChange: (data: any) => void;
+    onSubmit?: () => void;
+    submitting?: boolean;
 }
 
-export default function Passenger({ price, docs, number, formData, onChange }: PassengerProps) {
+export default function Passenger({
+    price,
+    docs,
+    number,
+    isLastPassenger,
+    formData,
+    onChange,
+    onSubmit,
+    submitting
+}: PassengerProps) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
             ...formData,
-            files: formData.files || []
+            files: formData.files || [],
+            departure_date: formData.departure_date || new Date(),
         }
     });
 
-    // Watch for form changes and notify parent
-    form.watch((value) => {
-        if (value !== formData) {
-            onChange(value);
+    useEffect(() => {
+        if (mounted) {
+            const subscription = form.watch((value) => {
+                if (value !== formData) {
+                    onChange(value);
+                }
+            });
+            return () => subscription.unsubscribe();
         }
-    });
+    }, [form, formData, onChange, mounted]);
 
     const handleFileChange = (files: File[] | File) => {
         const fileArray = Array.isArray(files) ? files : [files];
@@ -69,16 +95,20 @@ export default function Passenger({ price, docs, number, formData, onChange }: P
         onChange({ ...formData, files: updatedFiles });
     };
 
+    if (!mounted) {
+        return null;
+    }
+
     return (
         <Form {...form}>
             <div className="border py-4 px-[20px] rounded-4xl bg-white">
                 {number === 0 && (
                     <div className="flex alert">
-                        <img src="/alert.svg" alt="" className="mr-2"/>
+                        <img src="/alert.svg" alt="" className="mr-2" />
                         <p>La taille totale des fichiers que vous téléchargez doit être inférieure à 20 mégaoctets. Les types de fichiers doivent être ".jpg", " jpeg", ".png", ".gif" et ".pdf"</p>
                     </div>
                 )}
-                
+
                 <div className="flex justify-between mb-[30px]">
                     <h3 className="text-2xl font-semibold">Passager {number + 1}</h3>
                     <p className="text-2xl">
@@ -178,6 +208,35 @@ export default function Passenger({ price, docs, number, formData, onChange }: P
                         />
                     ))}
                 </div>
+                <Separator className="my-4" />
+                {isLastPassenger && (
+                    <div className="flex justify-between mt-6">
+                        <div className="flex items-center space-x-2">
+                            <Checkbox id="terms" />
+                            <label
+                                htmlFor="terms"
+                                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Veuillez cocher la case pour confirmer les conditions de réservation.  <br/>
+                                (Vous ne serez pas autorisé à continuer sans que la case ne soit cochée.) (Voir les conditions générales)
+                            </label>
+                        </div>
+                        <Button
+                            onClick={onSubmit}
+                            disabled={submitting}
+                            className="bg-[#DF2C2C] hover:bg-[#DF2C2C] cursor-pointer"
+                        >
+                            {submitting ? (
+                                <>
+                                    <Loader className="animate-spin mr-2" />
+                                    Soumission en cours...
+                                </>
+                            ) : (
+                                "Soumettre"
+                            )}
+                        </Button>
+                    </div>
+                )}
             </div>
         </Form>
     );
