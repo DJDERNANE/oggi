@@ -1,11 +1,15 @@
 "use client"
-import { useEffect, useState } from "react";
 import { PaginationDemo } from "./PaginationDemo";
 import Visa from "./Visa";
-import { fetchData } from "@/utils/GetRequest";
 
 
-export default function AllVisas({ destinations }: { destinations: any }) {
+export default function AllVisas({ destinations, pagination,
+    onPageChange,
+  }: {
+    destinations: any[],
+    pagination: any,
+    onPageChange: (page: number) => void,
+  }) {
     
    
 return (
@@ -20,7 +24,8 @@ return (
            
         </div>
         <div className="w-full flex justify-end">
-            <PaginationDemo />
+            <PaginationDemo pagination={pagination}
+          onPageChange={onPageChange}/>
         </div>
     </div>
 );

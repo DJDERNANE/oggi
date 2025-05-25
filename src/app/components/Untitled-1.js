@@ -62,7 +62,7 @@ export default function VisaAction({ visa }: { visa: any }) {
                 });
             });
 
-            const response = await fetch("http://localhost:8000/api/visa-applications", {
+            const response = await fetch(MainAPI+"/visa-applications", {
                 method: "POST",
                 body: formData,
                 headers: {

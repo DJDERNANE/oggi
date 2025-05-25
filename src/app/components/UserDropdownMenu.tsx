@@ -40,7 +40,10 @@ import { RemoveToken } from "@/utils/RemoveToken"
 import { useRouter } from "next/navigation"
   
 export function UserDropdownMenu() {
-  const [user, setUser] = useState({});
+  interface userInfo {
+    name: string
+  }
+  const [user, setUser] = useState<userInfo>();
   const router = useRouter();
   const logout = async() =>{
     console.log("logout")

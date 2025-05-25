@@ -12,6 +12,7 @@ export default function MyVisas() {
     const router = useRouter()
     useEffect(() => {
         const getMyvisas = async () => {
+            const response = await GetRequest('/visa-applications', true);
             try {
                 setMyVisas(response.data);
                 setCount(response.visaCount)

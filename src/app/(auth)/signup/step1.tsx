@@ -18,6 +18,7 @@ import { Loader } from 'lucide-react';
 import React, { useState } from "react"
 import { GetRequest } from "@/utils/GetRequest"
 import { PostRequest } from "@/utils/PostRequest"
+import { useRouter } from 'next/navigation'
 
 
 const FormSchema = z.object({
@@ -29,6 +30,7 @@ const FormSchema = z.object({
 })
 
 export default  function Step1({ onNext }: { onNext: any }) {
+    const router = useRouter()
     const [error, setError] = React.useState<string | null>('')
     const [loading, setLoading] = useState(false);
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -70,7 +72,7 @@ export default  function Step1({ onNext }: { onNext: any }) {
     }
 
     const handleLogin = () =>{
-        window.location.href = "/login"
+    router.push("/login")
     }
     return (
         <div className="h-[100vh] flex flex-col justify-center align-center">

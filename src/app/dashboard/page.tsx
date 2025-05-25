@@ -20,21 +20,35 @@ export default function Dashboard() {
     const [childrenPrice, setChildrenPrice] = useState(0);
     const [docs, setDocs] = useState([]);
 
+    const [pagination, setPagination] = useState({
+        current_page: 1,
+        last_page: 1,
+        per_page: 9,
+        total: 0,
+      });
+
     // Fetch destinations when component mounts
     useEffect(() => {
         const getDestinations = async () => {
-            try {
-                const response = await GetRequest("/destinations", false);
-                console.log("Destinations:", response.data);
-                setDestinations(response.data);
-            } catch (error) {
-                console.error("Error fetching destinations:", error);
-            } finally {
-                setLoading(false);
-            }
+          setLoading(true)
+          try {
+            const response = await GetRequest(`/destinations?page=${pagination.current_page}`, false);
+            setDestinations(response.data);
+            setPagination({
+              ...pagination,
+              current_page: response.current_page,
+              last_page: response.last_page,
+              total: response.total,
+            });
+          } catch (error) {
+            console.error("Error fetching destinations:", error);
+          } finally {
+            setLoading(false);
+          }
         };
+      
         getDestinations();
-    }, []);
+      }, [pagination.current_page]);
 
     const handlePassengerInfo = async (passengerInfo: any) => {
         if (!passengerInfo.visa_type || !passengerInfo.adults) {
@@ -77,16 +91,13 @@ export default function Dashboard() {
 
     return (
         <DashboardLayout>
-            {adultsCount > 0 ? (
-                <div className="container"></div>
-            ) : (
+            
                 <Filter
                 loading={loading}
                 destinations={destinations}
                 handlePassengerInfo={handlePassengerInfo}
             />
-            )
-        }
+           
 
         {loading ? (
                 <div className="flex items-center justify-center h-screen">
@@ -97,15 +108,18 @@ export default function Dashboard() {
                     {/* Render Adults if there are any */}
                     {adultsCount > 0
                         ? Array.from({ length: adultsCount }).map((_, index) => (
-                              <Passenger key={index} price={adultPrice} docs={docs}  handleSubmit={handleSubmit}/>
+                              <Passenger key={index} price={adultPrice} docs={docs}  handleSubmit={handleSubmit} number={index}/>
                           ))
-                        : <AllVisas destinations={destinations} />
+                        : <AllVisas destinations={destinations}  pagination={pagination}
+                        onPageChange={(page: number) =>
+                          setPagination(prev => ({ ...prev, current_page: page }))
+                        } />
                     }
 
                     {/* Render Children if there are any */}
                     {childrenCount > 0 &&
                         Array.from({ length: childrenCount }).map((_, index) => (
-                            <Passenger key={`child-${index}`} price={childrenPrice} docs={docs}  handleSubmit={handleSubmit}/>
+                            <Passenger key={`child-${index}`} price={childrenPrice} docs={docs}  handleSubmit={handleSubmit}  number={adultsCount + index}/>
                         ))
                     }
                 </>

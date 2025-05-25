@@ -1,4 +1,4 @@
-import { MainAPI } from "@/utils/MainAPI";
+import { FilesAPI, MainAPI } from "@/utils/MainAPI";
 import VisasStatus from "./VisasStatus";
 import {
     Dialog,
@@ -22,7 +22,7 @@ export default function VisaAction({ visa }: { visa: any }) {
                     {visa.status == "approved" ? (
                         <button className="py-2 px-4 cursor-pointer bg-[#3981F7] text-white rounded-full ">
                             <a
-                                href={`http://localhost:8000/storage/${visa.visa_file}`}
+                                href={`${FilesAPI}/${visa.visa_file}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

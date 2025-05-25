@@ -1,3 +1,9 @@
+interface visaInterface {
+    id: number,
+    name: string,
+    fammily_name: string,
+    
+}
 export default function VisasStatus({ type = "status", visa }: {
     type?: string,
     visa?: any
@@ -56,7 +62,7 @@ export default function VisasStatus({ type = "status", visa }: {
                 {
                     type === "file" && (
                         <button className="px-3 cursor-pointer flex justify-between gap-4 border  rounded-full py-2">
-                            <img src="/icon.svg" alt="visa status" />
+                            <img src="/Icon.svg" alt="visa status" />
                             update
                         </button>
                     )

@@ -15,10 +15,11 @@ import {
 import { Input } from "@/components/ui/input"
 import AuthLayout from "../authLayout"
 import { PasswordField } from "@/app/components/PasswordField"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Loader } from "lucide-react"
 import { PostRequest } from "@/utils/PostRequest"
 import { saveToken } from "@/utils/SaveToken"
+import { useRouter } from 'next/navigation'
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -26,7 +27,10 @@ const FormSchema = z.object({
 })
 
 export default function Login() {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+    
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -35,6 +39,7 @@ export default function Login() {
         },
     })
 
+
     const onSubmit = async (data: z.infer<typeof FormSchema>) => {
         setLoading(true);
         console.log("Submitting data:", data);
@@ -42,19 +47,20 @@ export default function Login() {
             const response = await PostRequest("/login", false, data);
             console.log("Response :", response);
             saveToken(response.token);
-            window.location.href = "/dashboard"
+            router.push("/dashboard")
         } catch (error) {
             console.error("Error submitting form:", error);
         } finally {
-            setLoading(false); // Stop loading state
+            setLoading(false);
         }
     };
 
     const handleSignup = () => {
-        window.location.href = "/signup"
+        router.push("/signup")
     }
+
     return (
-        <AuthLayout type="login">
+        <AuthLayout type="login" currentStep={1}>
             <div className="h-[100vh] flex flex-col justify-center align-center">
                 <img src="/step2.svg" alt="step2 image" className="mx-auto" />
                 <h1 className="step-container-title">Quick sign up </h1>
@@ -76,14 +82,15 @@ export default function Login() {
                             />
                             <PasswordField form={form} name={"password"} placeholder="Saisir votre mot de passe" />
                             <Button disabled={loading} type="submit" className="primary-btn w-full mb-4 rounded-full h-[50px] cursor-pointer">
-                                {loading ? <Loader />  : "Connecté"}
-                                </Button>
+                                {loading ? <Loader className="animate-spin" />  : "Connecté"}
+                            </Button>
                         </form>
                     </Form>
-                    <Button className="secondary-btn w-full mb-4 rounded-full h-[50px] border">Vous avez pas un compte? <span className="text-[#DF2C2C] " onClick={handleSignup}>Créer un</span> </Button>
+                    <Button className="secondary-btn w-full mb-4 rounded-full h-[50px] border">
+                        Vous avez pas un compte? <span className="text-[#DF2C2C] cursor-pointer" onClick={handleSignup}>Créer un</span> 
+                    </Button>
                 </div>
             </div>
         </AuthLayout>
-
     )
 }

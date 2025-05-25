@@ -7,28 +7,42 @@ import DashboardLayout from "../DashboardLayout";
 import { GetRequest } from "@/utils/GetRequest";
 
 export default function MyDocs() {
-    const [mainDocs, setMainDocs] = useState([])
-    const [temporaryDocs, setTemporaryDocs] = useState([])
-      useEffect(() => {
-            const mainDocs = async () => {
-                try {
-                    const response = await GetRequest('/my-docs/?type=main', true);
-                    setMainDocs(response.data);
-                } catch (error) {
-                    console.error("Error fetching visas:", error);
-                }
+    interface Docs {
+        id: number;
+        name: string;
+        path: string;
+    }
+    const [mainDocs, setMainDocs] = useState<Array<Docs>>([])
+    const [temporaryDocs, setTemporaryDocs] = useState<Array<Docs>>([])
+    useEffect(() => {
+        const fetchDocs = async () => {
+            try {
+                const [tempRes, mainRes] = await Promise.all([
+                    GetRequest('/my-docs/temporary', true),
+                    GetRequest('/my-docs/main', true),
+                ]);
+                setTemporaryDocs(tempRes.data);
+                setMainDocs(mainRes.data);
+            } catch (error) {
+                console.error("Error fetching documents:", error);
             }
-            const temporaryDocs = async () => {
-                try {
-                    const response = await GetRequest('/my-docs/?type=temporary', true);
-                    setTemporaryDocs(response.data);
-                } catch (error) {
-                    console.error("Error fetching visas:", error);
-                }
-            }
-            temporaryDocs();
-            mainDocs();
-        },[]);
+        };
+    
+        fetchDocs();
+    }, []);
+    
+    const fetchMainDocs = async () => {
+        const response = await GetRequest("/my-docs/main", true);
+        if (response.status === "success") {
+            setMainDocs(response.data);
+        }
+    };
+    const fetchTemporaryDocs = async () => {
+        const response = await GetRequest("/my-docs/temporary", true);
+        if (response.status === "success") {
+            setTemporaryDocs(response.data);
+        }
+    };
     return (
         <DashboardLayout>
             <div className="main-content">
@@ -42,16 +56,34 @@ export default function MyDocs() {
                     <div className="col-span-2">
                         <div className="border border-[1px] rounded-[11px] p-2 mb-4">
                             <h1 className="ml-2">
-                            Main Documents
+                                Main Documents
                             </h1>
-                            {mainDocs.length > 0 ? mainDocs.map(doc =>  <UpdateDocs  key={doc.id} name={doc.name} submitted={doc.path === null ? true : false} onUploaded={() => mainDocs()}/>) : <p>No main documents available.</p>}
-                        
+                            {mainDocs.length > 0
+                                ? mainDocs.map((doc) => (
+                                    <UpdateDocs
+                                        key={doc.id}
+                                        name={doc.name}
+                                        submitted={doc.path === null}
+                                        onUploaded={fetchMainDocs} // <-- correct function reference
+                                    />
+                                ))
+                                : <p>No main documents available.</p>}
+
                         </div>
-                        
+
                         <div className="border border-[1px] rounded-[11px] p-2">
-                        <h1 className="ml-2">
-                        Temporary Documents                            </h1>
-                        {temporaryDocs.length > 0 ? temporaryDocs.map(doc => <UpdateDocs name={doc.name} submitted={doc.path === null ? true : false} onUploaded={() => temporaryDocs()}/>) : <p>No temporary documents available.</p>}
+                            <h1 className="ml-2">
+                                Temporary Documents                            </h1>
+                            {temporaryDocs.length > 0
+                                ? temporaryDocs.map((doc) => (
+                                    <UpdateDocs
+                                        key={doc.id}
+                                        name={doc.name}
+                                        submitted={doc.path === null}
+                                        onUploaded={fetchTemporaryDocs} // <-- correct function reference
+                                    />
+                                ))
+                                : <p>No main documents available.</p>}
                         </div>
                     </div>
                     <div className="col-span-1">

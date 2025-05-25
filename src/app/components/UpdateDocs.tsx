@@ -23,21 +23,21 @@ export default function UpdateDocs({ name, submitted, onUploaded }: { name: stri
             </div>
             <div>
                 
-                <FileUploader
-                    name="update"
-                    onFileChange={async (file) => {
-                        const formData = new FormData();
-                        formData.append('file', file); // 'image' is the key your backend expects
-                        formData.append('name', name);
+            <FileUploader
+    name="update"
+    onFileChange={async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('name', name);
 
-                    
-                        const response = await PostRequest("/my-docs", true, formData);
-                        if(response.status == 'success'){
-                            alert("Document uploaded successfully!");
-                            window.location.reload();
-                        }
-                      }}
-                />
+        const response = await PostRequest("/my-docs", true, formData);
+        if (response.status === 'success') {
+            alert("Document uploaded successfully!");
+            window.location.reload();
+        }
+    }}
+/>
+
             </div>
 
 

@@ -1,7 +1,7 @@
 import VisasStatus from "./VisasStatus";
 
 export default function AllMyVisas({visas} : {visas: Array<any>}) {
-    console.log("visas :: ", visas);
+    
     return (
         <div className="allvisas_container flex flex-col w-full p-4">
                 <div className="mb-4">

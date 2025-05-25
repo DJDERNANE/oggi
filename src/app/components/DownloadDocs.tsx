@@ -19,7 +19,7 @@ export default function DownloadDocs() {
                 download all my documents in one clic
             </p>
             <button className="demande-visa-btn px-3 cursor-pointer my-[20px]" onClick={handleClick}>
-                Demande Visa
+                Download
                 <img src="/download.svg" alt="plus" />
             </button>
         </div>

@@ -22,7 +22,7 @@ export default function FileUploader({ name, onFileChange }) {
               </div>
           ) : (
               <div className="flex  items-center justify-center text-[#3981F7]">
-                  <img src="/icon.svg" alt="ticket" className="mx-2"/> {name}
+                  <img src="/Icon.svg" alt="ticket" className="mx-2"/> {name}
               </div>
           )}
       </div>

@@ -1,13 +1,14 @@
 "use client"
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
-
+import { useRouter } from 'next/navigation'
 
 
 export default function Step6() {
+    const router = useRouter()
 
     const handleClick = () => {
-        window.location.href = "/dashboard" 
+        router.push("/dashboard") 
     }
 
     return (

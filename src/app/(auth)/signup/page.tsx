@@ -18,7 +18,7 @@ export default function Signup() {
                 {(() => {
                     switch (step) {
                         case 1:
-                            return <Step1 onNext={setStep}/>;
+                            return <Step5 onNext={setStep}/>;
                         case 2:
                             return <Step2 onNext={setStep} />;
                         case 3:
