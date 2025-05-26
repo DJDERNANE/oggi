@@ -21,6 +21,7 @@ interface PassengerForm {
 
 export default function Dashboard() {
     const [destinations, setDestinations] = useState([]);
+    const [allDestinations, setAllDestinations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [adults, setAdults] = useState({});
@@ -45,6 +46,8 @@ export default function Dashboard() {
             setLoading(true)
             try {
                 const response = await GetRequest(`/destinations?page=${pagination.current_page}`, false);
+                const allDestinations = await GetRequest(`/destinations?paginate=false`, false);
+                setAllDestinations(allDestinations.data);
                 setDestinations(response.data);
                 setPagination({
                     ...pagination,
@@ -154,7 +157,7 @@ export default function Dashboard() {
         <DashboardLayout>
             <Filter
                 loading={loading}
-                destinations={destinations}
+                destinations={allDestinations}
                 handlePassengerInfo={handlePassengerInfo}
             />
 

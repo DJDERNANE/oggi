@@ -45,17 +45,7 @@ export function UserDropdownMenu() {
   }
   const [user, setUser] = useState<userInfo>();
   const router = useRouter();
-  const logout = async() =>{
-    console.log("logout")
-     try {
-          // const response = await PostRequest("/logout", true, {});
-          // console.log(response)
-          RemoveToken();
-          router.push("/login");
-        } catch (error) {
-          console.error("Logout failed:", error);
-        }
-  }// Call the hook inside the component body
+  const logout = useLogout();
 
   useEffect(() => {
     const getUser = async () => {
@@ -74,42 +64,7 @@ export function UserDropdownMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Users />
-            <span>Team</span>
-          </DropdownMenuItem>
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <UserPlus />
-              <span>Invite users</span>
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>
-                  <Mail />
-                  <span>Email</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <MessageSquare />
-                  <span>Message</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <PlusCircle />
-                  <span>More...</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-          <DropdownMenuItem>
-            <Plus />
-            <span>New Team</span>
-            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
+    
         <DropdownMenuItem onClick={logout}> {/* Use the returned function here */}
           <LogOut />
           <span>Log out</span>

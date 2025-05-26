@@ -7,9 +7,9 @@ export default function useLogout() {
 
   const logout = async () => {
     try {
-      const response = await PostRequest("/logout", true, {});
+      // const response = await PostRequest("/logout", true, {});
       RemoveToken();
-      router.push("/signin");
+      router.push("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
