@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { GetRequest } from "@/utils/GetRequest";
 import { PostRequest } from "@/utils/PostRequest";
+import useIsMobile from "@/lib/isMobile";
 
 
 export default function Filter({ destinations, handlePassengerInfo, loading }: { destinations: any, handlePassengerInfo: any, loading: boolean }) {
@@ -20,6 +21,7 @@ export default function Filter({ destinations, handlePassengerInfo, loading }: {
     });
     const [persons, setPersons] = useState(0)
     const [total, setTotal] = useState(0)
+    const isMobile = useIsMobile()
 
     useEffect(() => {
         const getVisas = async () => {
@@ -69,9 +71,9 @@ export default function Filter({ destinations, handlePassengerInfo, loading }: {
 
     return (
         <div className="p-4 relative w-full main-content">
-            <div className="flex justify-between items-center mb-4 w-full">
+            <div className={`flex justify-between  items-center mb-4 w-full ${isMobile && 'flex-col'}`}>
                 <h1 className="text-lg font-bold mb-4 w-full">Nouvelle demande de visa</h1>
-                <div className="total-parent flex w-full">
+                <div className={`total-parent flex w-full ${isMobile ? '' :'w-[550px]'}`}>
                     <p className="total flex items-end">
                         Total   {total} <span className="ml-2"> / dzd</span> 
                     </p>

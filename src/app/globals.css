@@ -46,7 +46,6 @@
 }
 
 main {
-  width: 90%;
   height: 80vh;
   overflow: scroll;
   scrollbar-width: none;
@@ -253,8 +252,12 @@ nav {
   position: relative;
   height: 335px;
   align-items: center;
+  justify-content: flex-start;
 }
-
+.banner-mobile{
+  width: 100%;
+  padding: 20px;
+}
 .banner-img {
   position: absolute;
   right: 100px;
@@ -267,8 +270,8 @@ nav {
 
 .banner p {
   display: flex;
-  width: 375.25px;
   height: 52px;
+  width: 60%;
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
@@ -281,7 +284,10 @@ nav {
   /* 160% */
   letter-spacing: -0.5px;
 }
-
+.banner-mobile p{
+  margin: 30px auto;
+  width: 100%;
+}
 .banner button {
   background-color: var(--primary-color);
   color: var(--text-color) !important;
@@ -317,7 +323,7 @@ nav {
 }
 
 .form-signup {
-  width: 400px;
+  width: 100%;
 }
 
 .phone-input {
@@ -514,7 +520,7 @@ select{
 }
 .total-parent{
   display: flex;
-  width: 550px;
+  
   height: 58px;
   padding: 16px;
   justify-content: center;
@@ -547,4 +553,22 @@ font-weight: 500;
   background: rgba(254, 237, 218, 0.52);
   padding: 15px 10px;
   margin: 20px 0px;
+}
+footer p.title{
+  color:rgba(255, 255, 255, 1) ;
+} 
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+  .main-content{
+    padding: 20px;
+  }
+  h1 {
+    font-size: 25px;
+  }
+  .submit-btn {
+   bottom: 10px;
+  }
 }

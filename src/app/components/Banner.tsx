@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
+import useIsMobile from "@/lib/isMobile";
 
 
 export default function Banner() {
+  const isMobile = useIsMobile()
   return (
-   <div className="banner">
+   <div className={`banner ${isMobile ? "banner-mobile": ""}`}>
         <div>
             <h1>50% remise</h1>
             <p>
@@ -12,7 +14,7 @@ export default function Banner() {
             </p>
             <Button>Browse Our Solutions</Button>
         </div>
-        <div className="banner-img">
+        <div className={`${isMobile ? 'hidden' : 'banner-img'}`}>
             <img src="/banner.png" alt="" />
         </div>
    </div>

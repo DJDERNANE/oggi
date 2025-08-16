@@ -19,6 +19,7 @@ import React, { useState } from "react"
 import { GetRequest } from "@/utils/GetRequest"
 import { PostRequest } from "@/utils/PostRequest"
 import { useRouter } from 'next/navigation'
+import useIsMobile from "@/lib/isMobile"
 
 
 const FormSchema = z.object({
@@ -33,6 +34,7 @@ export default  function Step1({ onNext }: { onNext: any }) {
     const router = useRouter()
     const [error, setError] = React.useState<string | null>('')
     const [loading, setLoading] = useState(false);
+    const isMobile = useIsMobile()
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -75,10 +77,10 @@ export default  function Step1({ onNext }: { onNext: any }) {
     router.push("/login")
     }
     return (
-        <div className="h-[100vh] flex flex-col justify-center align-center">
+        <div className={`flex flex-col justify-center align-center ${isMobile ?"h-[80vh] overflow-scroll" :"h-[100vh]"}`}>
             <img src="/step1.svg" alt="step1 image" className="mx-auto" />
             <h1 className="step-container-title">Informations générales</h1>
-            <p className="step-container-description mb-4 w-[390px] mx-auto text-[#5A5A5A]">Entrez votre nom complet et votre adresse e-mail pour commencer.</p>
+            <p className="step-container-description mb-4  mx-auto text-[#5A5A5A]">Entrez votre nom complet et votre adresse e-mail pour commencer.</p>
             <div className="flex flex-col w-full max-w-sm items-center space-x-2 mx-auto my-4">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit((data) => onSubmit(data, 1))} className="form-signup space-y-4">

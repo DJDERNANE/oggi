@@ -52,7 +52,7 @@ export default function MyDocs() {
                         These documents will be required by your visa applications and used by the agency. The documents are based on Algerian local laws and your legal structure.
                     </p>
                 </div>
-                <div className="grid grid-cols-3 gap-4 w-full mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mb-4">
                     <div className="col-span-2">
                         <div className="border border-[1px] rounded-[11px] p-2 mb-4">
                             <h1 className="ml-2">

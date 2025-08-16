@@ -12,8 +12,8 @@ export default function SidebarNav() {
     ];
 
     const bottomNav = [
-        { id: 4, name: 'Corbeille', link: '/', icon: '/trash.svg' },
-        { id: 5, name: 'Paramètres', link: '/', icon: '/settings.svg' },
+        // { id: 4, name: 'Corbeille', link: '/', icon: '/trash.svg' },
+        { id: 5, name: 'Paramètres', link: '/settings', icon: '/settings.svg' },
         { id: 6, name: 'Déconnecter', action: logout, icon: '/Logout.svg' }, // no `link`, use `action`
     ];
 

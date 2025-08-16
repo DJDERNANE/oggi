@@ -20,6 +20,7 @@ import { Loader } from "lucide-react"
 import { PostRequest } from "@/utils/PostRequest"
 import { saveToken } from "@/utils/SaveToken"
 import { useRouter } from 'next/navigation'
+import useIsMobile from "@/lib/isMobile"
 
 const FormSchema = z.object({
     email: z.string().email(),
@@ -30,6 +31,7 @@ export default function Login() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+    const isMobile = useIsMobile()
     
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -61,10 +63,10 @@ export default function Login() {
 
     return (
         <AuthLayout type="login" currentStep={1}>
-            <div className="h-[100vh] flex flex-col justify-center align-center">
+            <div className={`flex flex-col justify-center align-center ${isMobile ?"h-[80vh] overflow-scroll" :"h-[100vh]"}`}>
                 <img src="/step2.svg" alt="step2 image" className="mx-auto" />
                 <h1 className="step-container-title">Quick sign up </h1>
-                <p className="step-container-description mb-4 w-[390px] mx-auto text-[#5A5A5A]">Ensure your enter a valid email  and a strong password</p>
+                <p className="step-container-description mb-4  mx-auto text-[#5A5A5A]">Ensure your enter a valid email  and a strong password</p>
                 <div className="flex flex-col w-full max-w-sm items-center space-x-2 mx-auto my-4">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="form-signup space-y-4">

@@ -26,6 +26,7 @@ import { Loader } from 'lucide-react'
 import { Separator } from "@/components/ui/separator"
 import { useState, useEffect } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
+import useIsMobile from "@/lib/isMobile"
 const FormSchema = z.object({
     name: z.string().min(1, "Required"),
     family_name: z.string().min(1, "Required"),
@@ -64,6 +65,7 @@ export default function Passenger({
     submitting
 }: PassengerProps) {
     const [mounted, setMounted] = useState(false);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         setMounted(true);
@@ -210,12 +212,12 @@ export default function Passenger({
                 </div>
                 <Separator className="my-4" />
                 {isLastPassenger && (
-                    <div className="flex justify-between mt-6">
+                    <div className={`flex justify-between mt-6 ${isMobile ? "flex-col" : ""}`}>
                         <div className="flex items-center space-x-2">
                             <Checkbox id="terms" />
                             <label
                                 htmlFor="terms"
-                                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-justify"
                             >
                                 Veuillez cocher la case pour confirmer les conditions de réservation.  <br/>
                                 (Vous ne serez pas autorisé à continuer sans que la case ne soit cochée.) (Voir les conditions générales)
@@ -224,7 +226,7 @@ export default function Passenger({
                         <Button
                             onClick={onSubmit}
                             disabled={submitting}
-                            className="bg-[#DF2C2C] hover:bg-[#DF2C2C] cursor-pointer"
+                            className={`bg-[#DF2C2C] hover:bg-[#DF2C2C] cursor-pointer  my-4 ${isMobile ? " w-[50%]" : ""}`}
                         >
                             {submitting ? (
                                 <>
