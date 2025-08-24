@@ -2,17 +2,19 @@
 import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { useRouter } from 'next/navigation'
+import GuestRoute from "@/app/components/guest-route"
 
 
 export default function Step6() {
     const router = useRouter()
 
     const handleClick = () => {
-        router.push("/dashboard") 
+        router.push("/login") 
     }
 
     return (
-        <div className="h-[600px] flex flex-col justify-center align-center">
+        <GuestRoute>
+ <div className="h-[600px] flex flex-col justify-center align-center">
             <img src="/step6.svg" alt="step2 image" className="mx-auto" />
             <p className=" text-center text-5xl font-semibold my-[40px]">Félicitations ! <br /> 
             Votre compte est prêt. </p>
@@ -23,5 +25,7 @@ export default function Step6() {
 
             </div>
         </div>
+        </GuestRoute>
+       
     )
 }

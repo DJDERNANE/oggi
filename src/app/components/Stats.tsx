@@ -1,4 +1,19 @@
-export default function Stats({count}: {count: number}) {
+import { GetRequest } from "@/utils/GetRequest"
+import { useEffect, useState } from "react"
+
+export default function Stats({ count }: { count: number }) {
+    const [visaAccepted, setVisaAccepted] = useState(0)
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await GetRequest('/my-visas/approved', true);
+               
+                setVisaAccepted(data.accepted_visas_count);
+            } catch (error) {
+                console.error('Error fetching accepted visas:', error);
+            }
+        })();
+    }, []);
     return (
         <div className="flex justify-between items-center w-full allvisas_container p-4">
             <div className="flex gap-4">
@@ -12,9 +27,9 @@ export default function Stats({count}: {count: number}) {
                 <div >
                     <p>All my visas demands</p>
                     <div className="flex gap-2 items-center">
-                    <h1>{count}</h1> <span className="visas-ready-stats px-2 py-1">2 visas are ready </span>
+                        <h1>{count}</h1> <span className="visas-ready-stats px-2 py-1"> {visaAccepted} visas are ready </span>
                     </div>
-                    
+
                 </div>
 
             </div>

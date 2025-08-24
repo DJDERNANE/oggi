@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/input-otp"
 import { PostRequest } from "@/utils/PostRequest"
 import { Loader } from "lucide-react"
+import GuestRoute from "@/app/components/guest-route"
 
 const FormSchema = z.object({
     otp: z.string().min(4, {
@@ -60,7 +61,8 @@ export default  function Step2({ onNext }: { onNext: any }) {
             }
         };
     return (
-        <div className="h-[600px] flex flex-col justify-center align-center">
+        <GuestRoute>
+ <div className="h-[600px] flex flex-col justify-center align-center">
             <img src="/step1.svg" alt="step2 image" className="mx-auto" />
             <h1 className="step-container-title">Confirmer l’e-mail </h1>
             <p className="step-container-description  w-[390px] mx-auto text-[#5A5A5A]">Nous avons envoyé un code à 4 chiffres à votre e-mail. Saisissez-le pour vérifier votre adresse.</p>
@@ -109,5 +111,7 @@ export default  function Step2({ onNext }: { onNext: any }) {
 
             </div>
         </div>
+        </GuestRoute>
+       
     )
 }

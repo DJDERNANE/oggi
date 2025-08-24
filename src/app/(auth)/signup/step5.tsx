@@ -17,6 +17,7 @@ import { Eye, EyeOff, Loader } from "lucide-react";
 import { useState, useEffect } from "react"
 import { PostRequest } from "@/utils/PostRequest"
 import { PasswordField } from "@/app/components/PasswordField"
+import GuestRoute from "@/app/components/guest-route"
 
 const FormSchema = z.object({
     password: z
@@ -102,7 +103,8 @@ export default function Step5({ onNext }: { onNext: any }) {
 
 
     return (
-        <div className="h-[600px] flex flex-col justify-center align-center">
+       <GuestRoute>
+         <div className="h-[600px] flex flex-col justify-center align-center">
             <img src="/step5.svg" alt="step2 image" className="mx-auto" />
             <h1 className="step-container-title">Créer un mot de passe</h1>
             <p className="step-container-description  w-[390px] mx-auto text-[#5A5A5A]">Définissez un mot de passe sécurisé pour protéger votre compte.</p>
@@ -137,5 +139,6 @@ export default function Step5({ onNext }: { onNext: any }) {
                 </Form>
             </div>
         </div>
+       </GuestRoute>
     )
 }

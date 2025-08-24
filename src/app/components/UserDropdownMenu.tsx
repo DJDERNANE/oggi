@@ -19,6 +19,8 @@ import { PostRequest } from "@/utils/PostRequest";
 import useLogout from "@/hooks/useLogout";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "../_context/auth-context"
+
 
 // Navigation arrays
 const topNav = [

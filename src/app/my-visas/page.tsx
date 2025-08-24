@@ -6,6 +6,7 @@ import DashboardLayout from "../DashboardLayout";
 import { GetRequest } from "@/utils/GetRequest";
 import { useRouter } from 'next/navigation';
 import useIsMobile from "@/lib/isMobile";
+import ProtectedRoute from "../components/protected-route";
 
 export default function MyVisas() {
     const [myVisas, setMyVisas] = useState([]);
@@ -23,26 +24,29 @@ export default function MyVisas() {
             }
         }
         getMyvisas();
-    },[]);
+    }, []);
     return (
-        <DashboardLayout>
-            <div className="main-content">
-                <div className={`flex justify-between  w-full mb-4 ${isMobile ? 'flex-col items-start' : 'items-center'}`} >
-                    <h1>Mes Demandes Visa</h1>
-                    <button className="demande-visa-btn px-3 cursor-pointer" onClick={()=> router.push('/dashboard')}>
-                        Demande Visa
-                        <img src="/plus-btn.svg" alt="plus" />
-                    </button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
-                    <div>
-                        <MyVisasDetails count={count} visas={myVisas} />
+        <ProtectedRoute>
+            <DashboardLayout>
+                <div className="main-content">
+                    <div className={`flex justify-between  w-full mb-4 ${isMobile ? 'flex-col items-start' : 'items-center'}`} >
+                        <h1>Mes Demandes Visa</h1>
+                        <button className="demande-visa-btn px-3 cursor-pointer" onClick={() => router.push('/dashboard')}>
+                            Demande Visa
+                            <img src="/plus-btn.svg" alt="plus" />
+                        </button>
                     </div>
-                    <div>
-                        <AllMyVisas visas={myVisas} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
+                        <div>
+                            <MyVisasDetails count={count} visas={myVisas} />
+                        </div>
+                        <div>
+                            <AllMyVisas visas={myVisas} />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </DashboardLayout>
+            </DashboardLayout>
+        </ProtectedRoute>
+
     )
 }

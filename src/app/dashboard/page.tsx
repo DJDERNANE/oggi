@@ -9,6 +9,7 @@ import { GetRequest } from "@/utils/GetRequest";
 import { PostRequest } from "@/utils/PostRequest";
 import { Loader } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import ProtectedRoute from "../components/protected-route";
 
 interface PassengerForm {
     name: string;
@@ -140,7 +141,7 @@ export default function Dashboard() {
             const response = await PostRequest("/visa-applications", true, formData);
             console.log("Response:", response);
             alert(response.message);
-            
+
             // Reset forms after successful submission
             setAdultsCount(0);
             setChildrenCount(0);
@@ -154,61 +155,64 @@ export default function Dashboard() {
     };
 
     return (
-        <DashboardLayout>
-            <Filter
-                loading={loading}
-                destinations={allDestinations}
-                handlePassengerInfo={handlePassengerInfo}
-            />
+        <ProtectedRoute>
+            <DashboardLayout>
+                <Filter
+                    loading={loading}
+                    destinations={allDestinations}
+                    handlePassengerInfo={handlePassengerInfo}
+                />
 
-            {loading ? (
-                <div className="flex items-center justify-center h-screen">
-                    <Loader className="animate-spin" />
-                </div>
-            ) : (
-                <div className="space-y-4 pb-8">
-                    {/* Render Adults if there are any */}
-                    {adultsCount > 0
-                        ? Array.from({ length: adultsCount }).map((_, index) => (
-                            <Passenger
-                                key={index}
-                                price={adultPrice}
-                                docs={docs}
-                                number={index}
-                                formData={passengerForms[index]}
-                                onChange={(data) => updatePassengerForm(index, data)}
-                                isLastPassenger={index === adultsCount - 1 && childrenCount === 0}
-                                onSubmit={handleSubmitAll}
-                                submitting={submitting}
+                {loading ? (
+                    <div className="flex items-center justify-center h-screen">
+                        <Loader className="animate-spin" />
+                    </div>
+                ) : (
+                    <div className="space-y-4 pb-8">
+                        {/* Render Adults if there are any */}
+                        {adultsCount > 0
+                            ? Array.from({ length: adultsCount }).map((_, index) => (
+                                <Passenger
+                                    key={index}
+                                    price={adultPrice}
+                                    docs={docs}
+                                    number={index}
+                                    formData={passengerForms[index]}
+                                    onChange={(data) => updatePassengerForm(index, data)}
+                                    isLastPassenger={index === adultsCount - 1 && childrenCount === 0}
+                                    onSubmit={handleSubmitAll}
+                                    submitting={submitting}
+                                />
+                            ))
+                            : <AllVisas
+                                destinations={destinations}
+                                pagination={pagination}
+                                onPageChange={(page: number) =>
+                                    setPagination(prev => ({ ...prev, current_page: page }))
+                                }
                             />
-                        ))
-                        : <AllVisas
-                            destinations={destinations}
-                            pagination={pagination}
-                            onPageChange={(page: number) =>
-                                setPagination(prev => ({ ...prev, current_page: page }))
-                            }
-                        />
-                    }
+                        }
 
-                    {/* Render Children if there are any */}
-                    {childrenCount > 0 &&
-                        Array.from({ length: childrenCount }).map((_, index) => (
-                            <Passenger
-                                key={`child-${index}`}
-                                price={childrenPrice}
-                                docs={docs}
-                                number={adultsCount + index}
-                                formData={passengerForms[adultsCount + index]}
-                                onChange={(data) => updatePassengerForm(adultsCount + index, data)}
-                                isLastPassenger={index === childrenCount - 1}
-                                onSubmit={handleSubmitAll}
-                                submitting={submitting}
-                            />
-                        ))
-                    }
-                </div>
-            )}
-        </DashboardLayout>
+                        {/* Render Children if there are any */}
+                        {childrenCount > 0 &&
+                            Array.from({ length: childrenCount }).map((_, index) => (
+                                <Passenger
+                                    key={`child-${index}`}
+                                    price={childrenPrice}
+                                    docs={docs}
+                                    number={adultsCount + index}
+                                    formData={passengerForms[adultsCount + index]}
+                                    onChange={(data) => updatePassengerForm(adultsCount + index, data)}
+                                    isLastPassenger={index === childrenCount - 1}
+                                    onSubmit={handleSubmitAll}
+                                    submitting={submitting}
+                                />
+                            ))
+                        }
+                    </div>
+                )}
+            </DashboardLayout>
+        </ProtectedRoute>
+
     );
 }

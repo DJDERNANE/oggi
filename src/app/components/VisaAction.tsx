@@ -11,7 +11,7 @@ import {
   
 export default function VisaAction({ visa }: { visa: any }) {
     return (
-        (visa.status == "approved" || visa.status == "pending" || visa.status == "action_required") && (
+        (visa.status == "approved" || visa.status == "pending" || visa.status == "action_required" ||  visa.status == "rejected") && (
             <div className="flex flex-col w-full allvisas_container p-4">
                 <p className="font-semibold text-[#0A112F] text-[20px]">
                     Visa Action
@@ -43,9 +43,17 @@ export default function VisaAction({ visa }: { visa: any }) {
                                 </DialogHeader>
                             </DialogContent>
                         </Dialog>
-                    ) : (
-                        <div />
-                    )}
+                    ) : visa.status == "rejected" && visa.visa_file ? (
+                        <button className="py-2 px-4 cursor-pointer bg-[#3981F7] text-white rounded-full ">
+                            <a
+                                href={`${FilesAPI}/${visa.visa_file}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Download File
+                            </a>
+                        </button>
+                    ): ('')}
                 </div>
             </div>
         )

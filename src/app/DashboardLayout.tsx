@@ -7,34 +7,15 @@ import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import SidebarNav from './components/SidebarNav'
 import useIsMobile from '@/lib/isMobile'
+import ProtectedRoute from './components/protected-route'
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const router = useRouter()
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const isMobile = useIsMobile()
 
-  useEffect(() => {
-    const token = Cookies.get('oggi_token')
-    
-    if (!token) {
-      router.push('/login')
-    } else {
-      // Here you could add an API call to verify token validity
-      setIsAuthenticated(true)
-    }
-  }, [router])
-
-  if (isAuthenticated === null) {
-    return <div>Loading...</div> // Or a proper loading component
-  }
-
-  if (!isAuthenticated) {
-    return null // Router will handle the redirect
-  }
 
   return (
     <>

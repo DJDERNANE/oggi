@@ -20,6 +20,7 @@ import { GetRequest } from "@/utils/GetRequest"
 import { PostRequest } from "@/utils/PostRequest"
 import { useRouter } from 'next/navigation'
 import useIsMobile from "@/lib/isMobile"
+import GuestRoute from "@/app/components/guest-route"
 
 
 const FormSchema = z.object({
@@ -30,7 +31,7 @@ const FormSchema = z.object({
     confirm_email: z.string().email(),
 })
 
-export default  function Step1({ onNext }: { onNext: any }) {
+export default function Step1({ onNext }: { onNext: any }) {
     const router = useRouter()
     const [error, setError] = React.useState<string | null>('')
     const [loading, setLoading] = useState(false);
@@ -58,81 +59,84 @@ export default  function Step1({ onNext }: { onNext: any }) {
 
             localStorage.setItem("email", response.user.email);
             console.log("Response:", response);
-            onNext(response.next_step); 
+            onNext(response.next_step);
         } catch (error) {
             console.error("Error submitting form:", error);
         } finally {
             setLoading(false); // Stop loading state
         }
     };
-    
 
-    function handleChange({value, email} : {value: string, email: string}) {
+
+    function handleChange({ value, email }: { value: string, email: string }) {
         const msg = value == email ? '' : 'Emails do not match'
         form.setValue('confirm_email', value)
         setError(msg)
     }
 
-    const handleLogin = () =>{
-    router.push("/login")
+    const handleLogin = () => {
+        router.push("/login")
     }
     return (
-        <div className={`flex flex-col justify-center align-center ${isMobile ?"h-[80vh] overflow-scroll" :"h-[100vh]"}`}>
-            <img src="/step1.svg" alt="step1 image" className="mx-auto" />
-            <h1 className="step-container-title">Informations générales</h1>
-            <p className="step-container-description mb-4  mx-auto text-[#5A5A5A]">Entrez votre nom complet et votre adresse e-mail pour commencer.</p>
-            <div className="flex flex-col w-full max-w-sm items-center space-x-2 mx-auto my-4">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit((data) => onSubmit(data, 1))} className="form-signup space-y-4">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem >
-                                    <FormControl>
-                                        <Input className="h-[50px] rounded-full" placeholder="Nom complet" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input className="h-[50px] rounded-full" placeholder="Adresse e-mail" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="confirm_email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input className="h-[50px] rounded-full" placeholder="Confirmer l’e-mail" {...field} onChange={(e) => handleChange({value: e.target.value, email: form.getValues('email')})} />
-                                    </FormControl>
-                                    <FormMessage />
-                                    {error && <span className="text-red-500 text-xs">{error}</span>}
-                                </FormItem>
-                            )}
-                        />
-                        <Button
-                            disabled={loading}
-                            type="submit"
-                            className="primary-btn w-full mb-4 rounded-full h-[50px] cursor-pointer"
-                        >
-                            {loading ? <Loader />  : "Suivant"}
-                        </Button>
 
-                    </form>
-                </Form>
-                <Button className="secondary-btn w-full mb-4 rounded-full h-[50px] border cursor-pointer" onClick={handleLogin}>J'ai dejà un compte </Button>
+        <GuestRoute>
+            <div className={`flex flex-col justify-center align-center ${isMobile ? "h-[80vh] overflow-scroll" : "h-[100vh]"}`}>
+                <img src="/step1.svg" alt="step1 image" className="mx-auto" />
+                <h1 className="step-container-title">Informations générales</h1>
+                <p className="step-container-description mb-4  mx-auto text-[#5A5A5A]">Entrez votre nom complet et votre adresse e-mail pour commencer.</p>
+                <div className="flex flex-col w-full max-w-sm items-center space-x-2 mx-auto my-4">
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit((data) => onSubmit(data, 1))} className="form-signup space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem >
+                                        <FormControl>
+                                            <Input className="h-[50px] rounded-full" placeholder="Nom complet" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input className="h-[50px] rounded-full" placeholder="Adresse e-mail" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="confirm_email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input className="h-[50px] rounded-full" placeholder="Confirmer l’e-mail" {...field} onChange={(e) => handleChange({ value: e.target.value, email: form.getValues('email') })} />
+                                        </FormControl>
+                                        <FormMessage />
+                                        {error && <span className="text-red-500 text-xs">{error}</span>}
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                disabled={loading}
+                                type="submit"
+                                className="primary-btn w-full mb-4 rounded-full h-[50px] cursor-pointer"
+                            >
+                                {loading ? <Loader /> : "Suivant"}
+                            </Button>
+
+                        </form>
+                    </Form>
+                    <Button className="secondary-btn w-full mb-4 rounded-full h-[50px] border cursor-pointer" onClick={handleLogin}>J'ai dejà un compte </Button>
+                </div>
             </div>
-        </div>
+        </GuestRoute>
     )
 }

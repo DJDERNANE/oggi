@@ -1,19 +1,24 @@
+// hooks/useLogout.ts
+import { useAuth } from "@/app/_context/auth-context";
 import { useRouter } from "next/navigation";
-import { RemoveToken } from "@/utils/RemoveToken";
-import { PostRequest } from "@/utils/PostRequest";
+import Cookies from "js-cookie";
 
 export default function useLogout() {
+  const { logout } = useAuth();
   const router = useRouter();
 
-  const logout = async () => {
+  return async () => {
     try {
-      // const response = await PostRequest("/logout", true, {});
-      RemoveToken();
+      // Call your API logout endpoint if needed
+      // await PostRequest('/logout', true, {});
+      
+      // Clear client-side auth state
+      logout();
+      
+      // Redirect to login page
       router.push("/login");
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
-
-  return logout; // ✅ Make sure to return the function
 }

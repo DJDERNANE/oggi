@@ -5,6 +5,7 @@ import MainDocs from "../components/MainDocs";
 import UpdateDocs from "../components/UpdateDocs";
 import DashboardLayout from "../DashboardLayout";
 import { GetRequest } from "@/utils/GetRequest";
+import ProtectedRoute from "../components/protected-route";
 
 export default function MyDocs() {
     interface Docs {
@@ -44,7 +45,8 @@ export default function MyDocs() {
         }
     };
     return (
-        <DashboardLayout>
+        <ProtectedRoute>
+   <DashboardLayout>
             <div className="main-content">
                 <div className="flex flex-col  w-full mb-4" >
                     <h1>Compliance Documents</h1>
@@ -92,5 +94,7 @@ export default function MyDocs() {
                 </div>
             </div>
         </DashboardLayout>
+        </ProtectedRoute>
+     
     )
 }

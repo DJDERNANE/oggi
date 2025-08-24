@@ -20,7 +20,7 @@ export default function VisasStatus({ type = "status", visa }: {
                         </div>
                     ) : (
                         <div>
-                            <p className="font-semibold">Passport</p>
+                            <p className="font-semibold">{visa?.name} {visa?.fammily_name} <br />{visa?.visa_type?.destination?.name}</p>
                             <p className="text-[#5A5A5A]"></p>
                         </div>
                     )
@@ -39,7 +39,7 @@ export default function VisasStatus({ type = "status", visa }: {
                     )
                 }
                 {type === "status" && (
-                    <button className="px-2 cursor-pointer flex justify-between gap-4 border rounded-full py-2 w-[130px]">
+                    <button className="px-2 cursor-pointer flex justify-between gap-4 border rounded-full py-2 w-[130px] whitespace-nowrap">
                         {visa?.status === "approved" ? (
                             <>
                                 <img src="/approved.svg" alt="visa status" />
@@ -55,7 +55,12 @@ export default function VisasStatus({ type = "status", visa }: {
                                 <>
                                     <img src="/refused.svg" alt="visa status" />
                                     Refusé
-                                </>) : null}
+                                </>) :  visa?.status === "processing" ? (
+                            <span className="flex items-center gap-2 text-[12px]">
+                                <img src="/pending_visa.svg" alt="visa status" />
+                                En Traitement
+                            </span>
+                        ) : null}
                     </button>
                 )}
 

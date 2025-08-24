@@ -21,6 +21,7 @@ import {
 import { PostRequest } from "@/utils/PostRequest"
 import { useState } from "react"
 import { Loader } from "lucide-react"
+import GuestRoute from "@/app/components/guest-route"
 
 const FormSchema = z.object({
     otp: z.string().min(4, {
@@ -59,7 +60,8 @@ export default function Step4({ onNext }: { onNext: any }) {
         }
     };
     return (
-        <div className="h-[600px] flex flex-col justify-center align-center">
+        <GuestRoute>
+<div className="h-[600px] flex flex-col justify-center align-center">
             <img src="/step3.svg" alt="step2 image" className="mx-auto" />
             <h1 className="step-container-title">Confirmer le numéro de téléphone </h1>
             <p className="step-container-description  w-[390px] mx-auto text-[#5A5A5A]">Saisissez le code à 6 chiffres envoyé par SMS pour vérifier votre numéro.</p>
@@ -108,5 +110,7 @@ export default function Step4({ onNext }: { onNext: any }) {
 
             </div>
         </div>
+        </GuestRoute>
+        
     )
 }

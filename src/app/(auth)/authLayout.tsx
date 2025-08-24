@@ -1,9 +1,11 @@
+"use client";
 import "@/app/globals.css";
 import { PostRequest } from "@/utils/PostRequest";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import useIsMobile from "@/lib/isMobile";
-
+import GuestRoute from '../components/guest-route';
+import { useAuth } from '../_context/auth-context'
 export default function AuthLayout({
   children,
   type,
@@ -33,54 +35,11 @@ export default function AuthLayout({
   ];
 
   const steps = type === "login" ? loginSteps : SignupSteps;
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      if (typeof window === "undefined") return;
-
-      try {
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("oggi_token="))
-          ?.split("=")[1];
-
-        if (!token) {
-          setIsLoading(false);
-          return;
-        }
-
-        const response = await PostRequest("/me", true, {});
-        if (response && response.id) {
-          // Only redirect if not already on dashboard
-          if (pathname !== "/dashboard") {
-            router.push("/dashboard");
-          }
-        } else {
-          setIsLoading(false);
-        }
-      } catch (error) {
-        console.error("Auth check failed:", error);
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, [router, pathname]);
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex h-screen w-full items-center justify-center">
-  //       <div className="text-center">
-  //         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-  //         <p className="text-gray-600">Loading...</p>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
-    <div className={`flex overflow-hidden w-full ${isMobile ? "h-[90vh]" : "h-[100vh]"}`}>
+    <>
+      <div className={`flex overflow-hidden w-full ${isMobile ? "h-[90vh]" : "h-[100vh]"}`}>
       <div className={`process-side h-[100vh] ${currentStep === 6 || isMobile ? "w-0" : "w-1/3"}`}>
         <div className="container">
           <div className="logo py-4">
@@ -118,5 +77,6 @@ export default function AuthLayout({
         {children}
       </div>
     </div>
+    </>
   );
 }
